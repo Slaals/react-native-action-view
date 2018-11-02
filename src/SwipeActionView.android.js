@@ -64,7 +64,6 @@ export class SwipeActionView extends Component {
         ref="_scrollView"
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
       >
         {
           (this.state.leftButtons && this.state.leftButtons.length > 0) &&
@@ -79,25 +78,39 @@ export class SwipeActionView extends Component {
         </View>
         {
           (this.state.rightButtons && this.state.rightButtons.length > 0) &&
-          this.state.rightButtons.map((b, key) => (
-            <TouchableOpacity key={key} onPress={() => this._onButtonTapped(b)} style={[styles.button, {backgroundColor: b.color}]}>
-              <Text style={styles.buttonText}>{b.title}</Text>
-            </TouchableOpacity>
-          ))
+          <View style={styles.buttonsContainer}>
+            {this._drawButtons(this.props.rightButtons)}
+          </View>
         }
       </ScrollView>
+    );
+  }
+
+  _drawButtons = (btns: ButtonProps[]) => {
+    return (
+      this.state.rightButtons.map((b, key) => (
+        <TouchableOpacity key={key} onPress={() => this._onButtonTapped(b)} style={[styles.button, {backgroundColor: b.color}]}>
+          <Text style={styles.buttonText}>{b.title}</Text>
+        </TouchableOpacity>
+      ))
     );
   }
 }
 
 const styles = StyleSheet.create({
   content: {
-    flex: 1,
+    width: '100%',
+    maxWidth: '100%',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
     width: Dimensions.get('window').width,
   },
   button: {
-    alignSelf: 'stretch',
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 10,
   },
   buttonText: {
