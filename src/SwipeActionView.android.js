@@ -64,6 +64,7 @@ export class SwipeActionView extends Component {
         ref="_scrollView"
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={this.props.style}
       >
         {
           (this.state.leftButtons && this.state.leftButtons.length > 0) &&
@@ -110,8 +111,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
   },
   buttonText: {
     color: 'white',
