@@ -38,20 +38,6 @@ class example extends Component {
                            rightButtons={[{title: 'Red', color: 'rgb(255, 0, 0)', callback: () => {alert('Red button tapped.');}},
                                           {title: 'Green', color: 'rgb(0, 255, 0)', callback: () => {alert('Green button tapped.');}},
                                           {title: 'Blue', color: 'rgb(0, 0, 255)', callback: () => {alert('Blue button tapped.');}}]}>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.welcome}>
-                Flex view
-              </Text>
-              <Text style={styles.welcome}>
-                Flex view
-              </Text>
-              <Text style={styles.welcome}>
-                Flex view
-              </Text>
-              <Text style={styles.welcome}>
-                Flex view
-              </Text>
-            </View>
           </SwipeActionView>
         <SwipeActionView rightExpansionSettings={{buttonIndex: 0}}
                          leftExpansionSettings={{buttonIndex: 0}}

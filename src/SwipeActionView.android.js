@@ -41,13 +41,8 @@ export class SwipeActionView extends Component {
   stateFromProps(props) {
     const state = {};
 
-    if (props.rightButtons) {
-      state.rightButtons = props.rightButtons;
-    }
-
-    if (props.leftButtons) {
-      state.leftButtons = props.leftButtons;
-    }
+    state.rightButtons = props.rightButtons || [];
+    state.leftButtons = props.leftButtons || [];
 
     return state;
   }
@@ -67,30 +62,23 @@ export class SwipeActionView extends Component {
         style={this.props.style}
       >
         {
-          (this.state.leftButtons && this.state.leftButtons.length > 0) &&
-          this.state.leftButtons.map((b, key) => (
-            <TouchableOpacity key={key} onPress={() => this._onButtonTapped(b)} style={[styles.button, {backgroundColor: b.color}]}>
-              <Text style={styles.buttonText}>{b.title}</Text>
-            </TouchableOpacity>
-          ))
+          this.state.rightButtons.length > 0 && this._drawButtons(this.props.leftButtons)
         }
-        <View style={styles.content}>
+        <View style={[styles.content, {flex: this.state.rightButtons.length}]}>
           {this.props.children}
         </View>
         {
-          (this.state.rightButtons && this.state.rightButtons.length > 0) &&
-          <View style={styles.buttonsContainer}>
-            {this._drawButtons(this.props.rightButtons)}
-          </View>
+          this.state.rightButtons.length > 0 && this._drawButtons(this.props.rightButtons)
         }
       </ScrollView>
     );
   }
 
   _drawButtons = (btns: ButtonProps[]) => {
+    const width = Dimensions.get('window').width / (btns.length + 1);
     return (
       this.state.rightButtons.map((b, key) => (
-        <TouchableOpacity key={key} onPress={() => this._onButtonTapped(b)} style={[styles.button, {backgroundColor: b.color}]}>
+        <TouchableOpacity key={key} onPress={() => this._onButtonTapped(b)} style={[styles.button, {backgroundColor: b.color, width}]}>
           <Text style={styles.buttonText}>{b.title}</Text>
         </TouchableOpacity>
       ))
@@ -100,16 +88,10 @@ export class SwipeActionView extends Component {
 
 const styles = StyleSheet.create({
   content: {
-    width: '100%',
-    maxWidth: '100%',
-  },
-  buttonsContainer: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
     width: Dimensions.get('window').width,
+    maxWidth: Dimensions.get('window').width,
   },
   button: {
-    flex: 1,
     justifyContent: 'center',
     paddingHorizontal: 12,
   },
