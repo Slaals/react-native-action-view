@@ -26,7 +26,7 @@ interface Props extends ViewProps {
 
 
 // TODO AJust scroll, only works width right buttons
-export class SwipeActionView extends Component {
+export class SwipeActionView extends Component<ViewProps> {
   constructor(props) {
     super(props);
 
@@ -53,28 +53,38 @@ export class SwipeActionView extends Component {
     button.callback();
   }
 
+  _onLayout(layout) {
+    this.setState({contentWidth: layout.nativeEvent.layout.width});
+  }
+
   render() {
     return (
       <ScrollView
         ref="_scrollView"
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={this.props.style}
+        style={{flex: 1, flexGrow: 1}}
+        onLayout={this._onLayout.bind(this)}
+        contentContainerStyle={this.props.style}
       >
         {
-          this.state.rightButtons.length > 0 && this._drawButtons(this.props.leftButtons)
+          this.state.leftButtons.length > 0 && this._drawButtons(this.state.leftButtons)
         }
-        <View style={[styles.content, {flex: this.state.rightButtons.length}]}>
-          {this.props.children}
-        </View>
+
         {
-          this.state.rightButtons.length > 0 && this._drawButtons(this.props.rightButtons)
+          <View style={[styles.content, {width: this.state.contentWidth || Dimensions.get('window').width}]}>
+            {this.props.children}
+          </View>
+        }
+
+        {
+          this.state.rightButtons.length > 0 && this._drawButtons(this.state.rightButtons)
         }
       </ScrollView>
     );
   }
 
-  _drawButtons = (btns: ButtonProps[]) => {
+  _drawButtons = (btns: ButtonProps[] = []) => {
     const width = Dimensions.get('window').width / (btns.length + 1);
     return (
       this.state.rightButtons.map((b, key) => (
@@ -88,8 +98,7 @@ export class SwipeActionView extends Component {
 
 const styles = StyleSheet.create({
   content: {
-    width: Dimensions.get('window').width,
-    maxWidth: Dimensions.get('window').width,
+    minHeight: 100,
   },
   button: {
     justifyContent: 'center',
