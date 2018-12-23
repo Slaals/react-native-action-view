@@ -41,8 +41,8 @@ export class SwipeActionView extends Component<ViewProps> {
   stateFromProps(props) {
     const state = {};
 
-    state.rightButtons = props.rightButtons || [];
-    state.leftButtons = props.leftButtons || [];
+    state.rightButtons = props.rightButtons ? props.rightButtons.reverse() : [];
+    state.leftButtons = props.leftButtons ? props.leftButtons.reverse() : [];
 
     return state;
   }
