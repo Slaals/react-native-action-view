@@ -97,9 +97,6 @@ export class SwipeActionView extends Component<ViewProps> {
 }
 
 const styles = StyleSheet.create({
-  content: {
-    minHeight: 100,
-  },
   button: {
     justifyContent: 'center',
     paddingHorizontal: 12,
