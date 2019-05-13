@@ -16,12 +16,15 @@ import {
 interface ButtonProps {
   title: string;
   color?: string;
+
   callback(): void;
 }
 
 interface Props extends ViewProps {
   rightButtons: ButtonProps[];
   leftButtons: ButtonProps[];
+
+  holdAction: boolean;
 }
 
 
@@ -66,6 +69,7 @@ export class SwipeActionView extends Component<ViewProps> {
         style={{flex: 1, flexGrow: 1}}
         onLayout={this._onLayout.bind(this)}
         contentContainerStyle={this.props.style}
+        scrollEnabled={!this.props.holdAction}
       >
         {
           this.state.leftButtons.length > 0 && this._drawButtons(this.state.leftButtons)
